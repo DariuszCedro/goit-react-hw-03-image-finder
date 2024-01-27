@@ -22,3 +22,8 @@ export const ImageGallery = ({ images, openModal }) => {
     </ul>
   );
 };
+
+ImageGallery.propTypes = {
+  images: PropTypes.array,
+  openModal: PropTypes.func,
+};

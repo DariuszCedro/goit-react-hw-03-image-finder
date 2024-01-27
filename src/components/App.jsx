@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Searchbar } from './Searchbar/Searchbar';
 import { Modal } from './Modal/Modal';
 import { Loader } from './Loader/Loader';
-import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 
@@ -16,10 +15,13 @@ export class App extends Component {
     modalImg: '',
   };
 
+  timer = null;
+
   handleSearch = async () => {
     const API_KEY = '39463260-e3e8f658d6ff3e91dda44456f';
     const form = document.querySelector('form');
     const keywordsToSearch = form.elements.keywords.value;
+    this.handleCurrentPageUpdate();
     try {
       this.setState({ isLoading: true });
       const response = await fetch(
@@ -30,7 +32,7 @@ export class App extends Component {
       this.setState(
         this.state.currentPage === 1
           ? { images: data.hits }
-          : { images: this.state.images, ...data.hits }
+          : { images: [...this.state.images, ...data.hits] }
       );
     } catch (error) {
       console.log(error);
@@ -39,8 +41,12 @@ export class App extends Component {
     }
   };
 
-  handleChangePage = () => {
-    this.setState({ currentPage: this.state.currentPage + 1 });
+  handleCurrentPageUpdate = () => {
+    this.setState(state => {
+      return {
+        currentPage: state.currentPage + 1,
+      };
+    });
   };
 
   openModal = imageURL => {
@@ -59,9 +65,13 @@ export class App extends Component {
     document.addEventListener('keydown', handleESC);
   };
 
-  closeModal = handleESC => {
+  closeModal = () => {
     this.setState({ showModal: false });
     this.setState({ modalImg: '' });
+  };
+
+  handleClick = () => {
+    this.handleSearch();
   };
 
   render() {
@@ -72,7 +82,7 @@ export class App extends Component {
         {this.state.isLoading && <Loader />}
         <Button
           show={this.state.images.length > 0}
-          onClick={this.handleChangePage}
+          onClick={this.handleClick}
         />
         <Modal
           show={this.state.showModal}

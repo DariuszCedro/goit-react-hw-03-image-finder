@@ -12,3 +12,8 @@ export const Button = ({ show, onClick }) => {
     </button>
   );
 };
+
+Button.propTypes = {
+  show: PropTypes.bool,
+  onClick: PropTypes.func,
+};

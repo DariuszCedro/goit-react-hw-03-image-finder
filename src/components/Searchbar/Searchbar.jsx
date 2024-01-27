@@ -9,8 +9,12 @@ export const Searchbar = ({ handleSearch }) => {
 
   return (
     <header className={css.searchbar}>
-      <form className={css.searchForm} onSubmit={handleSubmit}>
-        <button type="submit" className={css.searchFormButton}>
+      <form className={css.searchForm}>
+        <button
+          type="submit"
+          onClick={handleSubmit}
+          className={css.searchFormButton}
+        >
           <span>Search</span>
         </button>
 
@@ -25,4 +29,8 @@ export const Searchbar = ({ handleSearch }) => {
       </form>
     </header>
   );
+};
+
+Searchbar.propTypes = {
+  handleSearch: PropTypes.func,
 };
