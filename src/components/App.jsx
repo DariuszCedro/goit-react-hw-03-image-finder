@@ -54,11 +54,9 @@ export class App extends Component {
     this.setState({ showModal: true });
 
     const handleESC = evt => {
-      {
-        if (evt.key === 'Escape') {
-          this.closeModal();
-          document.removeEventListener('keydown', handleESC);
-        }
+      if (evt.key === 'Escape') {
+        this.closeModal();
+        document.removeEventListener('keydown', handleESC);
       }
     };
 
