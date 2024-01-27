@@ -5,7 +5,19 @@ import { Loader } from './Loader/Loader';
 import { ImageGalleryItem } from './ImageGalleryItem/ImageGalleryItem';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
+import { DNA } from 'react-loader-spinner';
 
-export const App = () => {
-  return <div>React homework template</div>;
-};
+export class App extends Component {
+  state = {};
+
+  render() {
+    return (
+      <>
+        <Searchbar></Searchbar>
+        <ImageGallery>
+          <ImageGalleryItem></ImageGalleryItem>
+        </ImageGallery>
+      </>
+    );
+  }
+}
