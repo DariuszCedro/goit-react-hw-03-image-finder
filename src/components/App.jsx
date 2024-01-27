@@ -12,6 +12,8 @@ export class App extends Component {
     currentPage: 1,
     isLoading: false,
     images: [],
+    showModal: false,
+    modalImg: '',
   };
 
   handleSearch = async () => {
@@ -36,12 +38,47 @@ export class App extends Component {
       this.setState({ isLoading: false });
     }
   };
+
+  handleChangePage = () => {
+    this.setState({ currentPage: this.state.currentPage + 1 });
+  };
+
+  openModal = imageURL => {
+    this.setState({ modalImg: imageURL });
+    this.setState({ showModal: true });
+
+    const handleESC = evt => {
+      {
+        if (evt.key === 'Escape') {
+          this.closeModal();
+          document.removeEventListener('keydown', handleESC);
+        }
+      }
+    };
+
+    document.addEventListener('keydown', handleESC);
+  };
+
+  closeModal = handleESC => {
+    this.setState({ showModal: false });
+    this.setState({ modalImg: '' });
+  };
+
   render() {
     return (
       <>
         <Searchbar handleSearch={this.handleSearch} />
-        <ImageGallery images={this.state.images} />
+        <ImageGallery images={this.state.images} openModal={this.openModal} />
         {this.state.isLoading && <Loader />}
+        <Button
+          show={this.state.images.length > 0}
+          onClick={this.handleChangePage}
+        />
+        <Modal
+          show={this.state.showModal}
+          imageURL={this.state.modalImg}
+          onClose={this.closeModal}
+        />
       </>
     );
   }
